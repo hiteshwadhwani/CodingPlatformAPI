@@ -97,9 +97,6 @@ const userCheckAnswerService = async (
   };
 
   try {
-    const { problemId, source, compilerId, compilerVersionId, tests } =
-      req.body;
-
     if (!problemId || !source || !compilerId) {
       return res.status(400).json({ msg: "Some missing fields" });
     }
