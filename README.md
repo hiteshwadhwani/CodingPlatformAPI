@@ -47,7 +47,7 @@ Start the server
 
 #### Login
 ```http
-  GET /user/login
+  POST /user/login
 ```
 
 | Parameter | Type     | Description                |
@@ -58,7 +58,7 @@ Start the server
 
 #### SignUp
 ```http
-  GET /user/signup
+  POST /user/signup
 ```
 
 
@@ -71,7 +71,7 @@ Start the server
 
 #### problem Submission
 ```http
-  GET /user/submission
+  POST /user/submission
 ```
 
 #### -------- Bearer Token Required----------
@@ -91,7 +91,7 @@ Start the server
 #### Login
 
 ```http
-  GET /admin/login
+  POST /admin/login
 ```
 
 | Parameter | Type     | Description                |
@@ -102,7 +102,7 @@ Start the server
 #### Signup
 
 ```http
-  GET /admin/signup
+  POST /admin/signup
 ```
 
 
@@ -116,7 +116,7 @@ Start the server
 #### Add problem
 
 ```http
-  GET /admin/problem/${id}
+  POST /admin/problem/${id}
 ```
 
 #### -------- Bearer Token Required----------
@@ -135,7 +135,7 @@ Start the server
 #### Update problem
 
 ```http
-  GET /admin/problem/${id}
+  PUT /admin/problem/${id}
 ```
 
 #### -------- Bearer Token Required----------
@@ -155,7 +155,7 @@ Start the server
 #### Delete problem
 
 ```http
-  GET /admin/problem/${id}
+  DELETE /admin/problem/${id}
 ```
 
 #### -------- Bearer Token Required----------
@@ -169,7 +169,7 @@ Start the server
 #### Add tese cases
 
 ```http
-  GET /admin/add-test-case/${id}
+  POST /admin/add-test-case/${id}
 ```
 
 #### -------- Bearer Token Required----------
