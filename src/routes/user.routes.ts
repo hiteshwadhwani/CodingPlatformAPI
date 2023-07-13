@@ -1,20 +1,17 @@
 import express, { NextFunction, Response , Router, Request } from 'express'
-import {userLoginController, userSignUpController} from '../controller/user.controller'
-import {customRequest} from "../types"
-import { isAdmin } from '../middelware/isAdminMiddelware'
-
+import {userLoginController, userSignUpController, userCheckAnswerController} from '../controller/user.controller'
 import {isAuthenticated} from '../middelware/authMiddelware'
+import axios from 'axios'
 const router : Router = express.Router()
 
+// /user/login
 router.post('/login', userLoginController)
+
+// /user/signup
 router.post('/signup', userSignUpController)
-router.get('/test', isAuthenticated, isAdmin, (req: customRequest, res: Response, next: NextFunction) => {
-    const user = req.user
 
-    if(!user){
-        return res.status(400).json({msg: 'nice'})
-    }
-    res.status(200).json({user: user})
-})
+// An API that takes the solution from the user for a particular question.
 
+// /user/submission
+router.post('/submission', isAuthenticated, userCheckAnswerController)
 export default router

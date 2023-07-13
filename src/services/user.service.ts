@@ -4,6 +4,13 @@ import prisma from "../libs/prisma";
 import { generateToken } from "../utils/generateToken";
 import { JsonWebTokenError } from "jsonwebtoken";
 import { User } from "@prisma/client";
+import { customRequest } from "../types";
+import axios from "axios";
+import { Submission, SubmissionData } from "../types";
+import {
+  createSubmission,
+  getSubmission,
+} from "../utils/submissionHelperFunctions";
 
 const UserSignUpService = async (
   req: Request,
@@ -39,8 +46,8 @@ const userLoginService = async (
   try {
     const { email, password } = await req.body;
 
-    if(!email || !password){
-        return res.status(400).json({ msg: "Some fields missing" });
+    if (!email || !password) {
+      return res.status(400).json({ msg: "Some fields missing" });
     }
     const user: User = await prisma.user.findUnique({
       where: {
@@ -51,7 +58,6 @@ const userLoginService = async (
     if (!user) {
       return res.status(401).json({ msg: "No user found" });
     }
-
 
     const isMatch = await bcrypt.compare(password, user.hashedPassword);
     if (!isMatch) {
@@ -66,4 +72,52 @@ const userLoginService = async (
   }
 };
 
-export { userLoginService, UserSignUpService };
+const userCheckAnswerService = async (
+  req: customRequest,
+  res: Response,
+  next: NextFunction
+) => {
+  const user = req.user;
+  if (!user) {
+    return res.status(400).json({ msg: "Unauthorized" });
+  }
+
+  const { problemId, source, compilerId, compilerVersionId, tests } = req.body;
+
+  if (!problemId || !source || !compilerId) {
+    return res.status(400).json({ msg: "Some fields are missing" });
+  }
+
+  const data: SubmissionData = {
+    problemId,
+    source,
+    compilerId,
+    compilerVersionId,
+    tests,
+  };
+
+  try {
+    const { problemId, source, compilerId, compilerVersionId, tests } =
+      req.body;
+
+    if (!problemId || !source || !compilerId) {
+      return res.status(400).json({ msg: "Some missing fields" });
+    }
+    const response = await axios.post(
+      `https://${process.env.SPHERE_ENGINE_PROBLEMS_ENDPOINT}/api/v4/submissions?access_token=${process.env.SPHERE_ENGINE_PROBLEMS_TOKEN}`,
+      data
+    );
+
+    if (response.status === 201) {
+      return res
+        .status(201)
+        .json({ msg: "Submission Successful", data: response.data });
+    }
+  } catch (error) {
+    return res
+      .status(error.response.status)
+      .json({ msg: error.response.statusText });
+  }
+};
+
+export { userLoginService, UserSignUpService, userCheckAnswerService };

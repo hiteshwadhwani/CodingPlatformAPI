@@ -2,8 +2,8 @@ import app from "./app"
 
 const start =  async () => {
   try{
-    app?.listen(process.env.PORT || 8000, () => {
-      console.log(`Listening: http://localhost:${process.env.PORT || 8000}`)
+    app?.listen(process.env.PORT || 7000, () => {
+      console.log(`Listening: http://localhost:${process.env.PORT || 7000}`)
     })
   }
   catch(error){

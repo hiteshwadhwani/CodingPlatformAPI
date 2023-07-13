@@ -2,6 +2,7 @@ import express, {Express} from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 import cookieParser from "cookie-parser";
+import bodyParser from "body-parser";
 
 
 //Import Routes
@@ -17,8 +18,10 @@ dotenv.config();
 const app: Express | undefined = express();
 
 //Load app middelware
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+// app.use(express.json());
+// app.use(express.urlencoded({ extended: true }));
+app.use(bodyParser.json()); 
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(cookieParser());
 
 app.use(cors());

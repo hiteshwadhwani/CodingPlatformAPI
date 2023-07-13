@@ -20,6 +20,17 @@ model User {
   updatedAt      DateTime @updatedAt
 }
 
+model Problem {
+  id            String  @id @default(auto()) @map("_id") @db.ObjectId
+  problem_id    Int @unique
+  code          String
+  name          String
+  body          String?
+  typeId        Int?
+  masterjudgeId Int
+  interactive   Boolean?
+}
+
 enum Role {
   USER
   ADMIN
